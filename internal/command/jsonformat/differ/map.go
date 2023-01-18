@@ -13,7 +13,7 @@ import (
 func (change Change) computeAttributeDiffAsMap(elementType cty.Type) computed.Diff {
 	mapValue := change.asMap()
 	elements, current := collections.TransformMap(mapValue.Before, mapValue.After, func(key string) computed.Diff {
-		return mapValue.getChild(key).computeDiffForType(elementType)
+		return mapValue.getChild(key).ComputeDiffForType(elementType)
 	})
 	return computed.NewDiff(renderers.Map(elements), current, change.ReplacePaths.ForcesReplacement())
 }

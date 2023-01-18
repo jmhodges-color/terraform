@@ -7,6 +7,7 @@ import (
 	"github.com/hashicorp/terraform/internal/command/jsonformat/computed"
 	"github.com/hashicorp/terraform/internal/command/jsonformat/differ/replace"
 	"github.com/hashicorp/terraform/internal/command/jsonplan"
+	viewsjson "github.com/hashicorp/terraform/internal/command/views/json"
 	"github.com/hashicorp/terraform/internal/plans"
 )
 
@@ -92,6 +93,17 @@ func FromJsonChange(change jsonplan.Change) Change {
 		BeforeSensitive: unmarshalGeneric(change.BeforeSensitive),
 		AfterSensitive:  unmarshalGeneric(change.AfterSensitive),
 		ReplacePaths:    replace.Parse(change.ReplacePaths),
+	}
+}
+
+func FromJsonOutput(output viewsjson.Output) Change {
+	return Change{
+		Before:          unmarshalGeneric(output.Value),
+		After:           unmarshalGeneric(output.Value),
+		Unknown:         false,
+		BeforeSensitive: output.Sensitive,
+		AfterSensitive:  output.Sensitive,
+		ReplacePaths:    replace.Parse(nil),
 	}
 }
 

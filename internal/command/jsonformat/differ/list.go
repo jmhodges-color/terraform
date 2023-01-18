@@ -14,7 +14,7 @@ func (change Change) computeAttributeDiffAsList(elementType cty.Type) computed.D
 	sliceValue := change.asSlice()
 
 	processIndices := func(beforeIx, afterIx int) computed.Diff {
-		return sliceValue.getChild(beforeIx, afterIx).computeDiffForType(elementType)
+		return sliceValue.getChild(beforeIx, afterIx).ComputeDiffForType(elementType)
 	}
 
 	isObjType := func(_ interface{}) bool {

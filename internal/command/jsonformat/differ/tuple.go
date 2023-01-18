@@ -14,7 +14,7 @@ func (change Change) computeAttributeDiffAsTuple(elementTypes []cty.Type) comput
 	sliceValue := change.asSlice()
 	for ix, elementType := range elementTypes {
 		childValue := sliceValue.getChild(ix, ix)
-		element := childValue.computeDiffForType(elementType)
+		element := childValue.ComputeDiffForType(elementType)
 		elements = append(elements, element)
 		current = collections.CompareActions(current, element.Action)
 	}
