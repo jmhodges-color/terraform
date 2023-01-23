@@ -380,34 +380,6 @@ type nestedSchema interface {
 	AttributeByPath(cty.Path) *configschema.Attribute
 }
 
-func setElementComputedAsNull(schema nestedSchema, elem cty.Value) cty.Value {
-	elem, _ = cty.Transform(elem, func(path cty.Path, v cty.Value) (cty.Value, error) {
-		if v.IsNull() || !v.IsKnown() {
-			return v, nil
-		}
-
-		attr := schema.AttributeByPath(path)
-		if attr == nil {
-			// we must be at a nested block rather than an attribute, continue
-			return v, nil
-		}
-
-		if attr.Computed {
-			// If this could have been computed, we always return null in order
-			// to compare config and state values.
-			//
-			// The only way to determine if an optional+computed value is
-			// optional or computed is see if it is set in the config, however
-			// for set elements we don't yet know which element value
-			// corresponds to the configuration.
-			return cty.NullVal(v.Type()), nil
-		}
-		return v, nil
-	})
-
-	return elem
-}
-
 // optionalValueNotComputable is used to check if an object in state must
 // have at least partially come from configuration. If the prior value has any
 // non-null attributes which are not computed in the schema, then we know there
