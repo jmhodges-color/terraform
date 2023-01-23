@@ -878,6 +878,7 @@ func (m *MockRuns) Create(ctx context.Context, options tfe.RunCreateOptions) (*t
 	r.Workspace = &tfe.Workspace{
 		ID:                         w.ID,
 		StructuredRunOutputEnabled: w.StructuredRunOutputEnabled,
+		TerraformVersion:           w.TerraformVersion,
 	}
 
 	if w.StructuredRunOutputEnabled {
